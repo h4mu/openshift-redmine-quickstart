@@ -43,9 +43,9 @@ else
     rm redmine.sql.gz
     popd > /dev/null
 fi
-bundle install --no-deployment
 pushd ${OPENSHIFT_REPO_DIR} > /dev/null
 echo "Migrating database"
+bundle install --without development test
 bundle exec "env RAILS_ENV='production' rake db:migrate"
 bundle exec "env RAILS_ENV='production' rake redmine:backlogs:install"
 popd > /dev/null
