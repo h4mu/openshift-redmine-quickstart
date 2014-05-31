@@ -30,10 +30,7 @@ if echo "use $OPENSHIFT_APP_NAME; show tables"  | mysql_call | grep attachments 
 then
     # Runs on every other Redmine application deployment
     # except the first one.
-    pushd ${OPENSHIFT_REPO_DIR} > /dev/null
-    echo "Migrating database"
-    bundle exec "env RAILS_ENV='production' rake db:migrate"
-    popd > /dev/null
+    echo "Not initial deployment"
 else
     # Runs on the initial Redmine deployment
     ###
@@ -46,6 +43,12 @@ else
     rm redmine.sql.gz
     popd > /dev/null
 fi
+bundle install
+pushd ${OPENSHIFT_REPO_DIR} > /dev/null
+echo "Migrating database"
+bundle exec "env RAILS_ENV='production' rake db:migrate"
+bundle exec "env RAILS_ENV='production' rake redmine:backlogs:install"
+popd > /dev/null
 
 if [ ! -d ${OPENSHIFT_DATA_DIR}files ]
 then
