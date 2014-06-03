@@ -1,0 +1,6 @@
+rhc app create redmine ruby-1.9 mysql-5.1 --timeout 6000
+cd redmine/
+git remote add github -f git@github.com:h4mu/openshift-redmine-quickstart.git
+git merge github/master -s recursive -X theirs
+git push origin f1e38fbeea6ef6855e52ea0f28c096f09d9663c3:master
+# set up redmine
