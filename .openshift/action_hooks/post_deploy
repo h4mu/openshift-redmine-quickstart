@@ -45,6 +45,7 @@ else
 fi
 pushd ${OPENSHIFT_REPO_DIR} > /dev/null
 echo "Migrating database"
+mv plugins/redmine_backlogs/Gemfile.old plugins/redmine_backlogs/Gemfile
 bundle install --without development test
 bundle exec "env RAILS_ENV='production' rake db:migrate"
 bundle exec "env RAILS_ENV='production' rake redmine:backlogs:install"

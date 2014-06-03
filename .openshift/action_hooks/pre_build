@@ -8,6 +8,9 @@
 #  main(): Add a Gemfile.lock from the specific version and replace the env
 #          variables for DB HOST, USERNAME and PASSWORD.
 # 
+pushd "$OPENSHIFT_REPO_DIR/plugins/redmine_backlogs" > /dev/null
+mv Gemfile Gemfile.old
+popd > /dev/null
 pushd "$OPENSHIFT_REPO_DIR" > /dev/null
 [ ! -f Gemfile.lock ] && cp -f "Gemfile.lock.ruby-$OPENSHIFT_RUBY_VERSION" Gemfile.lock
 cp config/database.yml-$OPENSHIFT_RUBY_VERSION config/database.yml
