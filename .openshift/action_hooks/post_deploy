@@ -49,7 +49,7 @@ mv plugins/redmine_backlogs/Gemfile.old plugins/redmine_backlogs/Gemfile
 bundle install --no-deployment
 bundle exec "env RAILS_ENV='production' rake db:migrate"
 bundle exec "env RAILS_ENV='production' REDMINE_LANG='en' rake redmine:load_default_data"
-bundle exec "env RAILS_ENV='production' rake redmine:backlogs:install"
+bundle exec "env RAILS_ENV='production' rake redmine:backlogs:install story_trackers=Bug,Feature task_tracker=Task"
 popd > /dev/null
 
 if [ ! -d ${OPENSHIFT_DATA_DIR}files ]
