@@ -48,7 +48,7 @@ echo "Migrating database"
 mv plugins/redmine_backlogs/Gemfile.old plugins/redmine_backlogs/Gemfile
 bundle install --no-deployment
 bundle exec "env RAILS_ENV='production' rake db:migrate"
-bundle exec "env RAILS_ENV='production' rake redmine:load_default_data"
+bundle exec "env RAILS_ENV='production' REDMINE_LANG='en' rake redmine:load_default_data"
 bundle exec "env RAILS_ENV='production' rake redmine:backlogs:install"
 popd > /dev/null
 
