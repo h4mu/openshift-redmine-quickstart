@@ -54,6 +54,11 @@ bundle exec "env RAILS_ENV='production' rake tmp:sessions:clear"
 bundle exec "env RAILS_ENV='production' rake redmine:backlogs:install story_trackers=Bug,Feature task_tracker=Task"
 popd > /dev/null
 
+pushd ${OPENSHIFT_REPO_DIR} > /dev/null
+	echo "Generating secret token"
+	bundle exec "env RAILS_ENV='production' rake generate_secret_token"
+popd > /dev/null
+
 if [ ! -d ${OPENSHIFT_DATA_DIR}files ]
 then
 	mkdir ${OPENSHIFT_DATA_DIR}files
