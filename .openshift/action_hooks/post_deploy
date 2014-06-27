@@ -41,14 +41,16 @@ else
     echo "Loading database"
     gunzip -c redmine.sql.gz | mysql_call
     rm redmine.sql.gz
+    bundle exec "env RAILS_ENV='production' REDMINE_LANG='en' rake redmine:load_default_data"
     popd > /dev/null
 fi
 pushd ${OPENSHIFT_REPO_DIR} > /dev/null
 echo "Migrating database"
-mv plugins/redmine_backlogs/Gemfile.old plugins/redmine_backlogs/Gemfile
+mv plugins/redmine_backlogs/Gemfile.old plugins/redmine_backlogs/Gemfile || echo "no gemfile.old"
 bundle install --no-deployment
 bundle exec "env RAILS_ENV='production' rake db:migrate"
-bundle exec "env RAILS_ENV='production' REDMINE_LANG='en' rake redmine:load_default_data"
+bundle exec "env RAILS_ENV='production' rake tmp:cache:clear"
+bundle exec "env RAILS_ENV='production' rake tmp:sessions:clear"
 bundle exec "env RAILS_ENV='production' rake redmine:backlogs:install story_trackers=Bug,Feature task_tracker=Task"
 popd > /dev/null
 
